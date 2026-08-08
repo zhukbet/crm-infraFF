@@ -1,4 +1,4 @@
-# support-crm-infra
+# crm-infraFF
 
 Оркестрація локальної розробки й деплою для саппорт-CRM поверх Telegram. Коду продукту тут
 немає — лише зведення `crm-backendFF` і `crm-frontendFF` в один робочий стек. Специфікація
@@ -25,8 +25,8 @@
 ## Запуск
 
 ```bash
-git clone --recurse-submodules https://github.com/zhukbet/support-crm-infra.git
-cd support-crm-infra
+git clone --recurse-submodules https://github.com/zhukbet/crm-infraFF.git
+cd crm-infraFF
 cp .env.example .env   # заповнити BOT_TOKEN, JWT_SECRET
 docker compose up -d --build
 ```
@@ -96,8 +96,8 @@ git commit -m "Оновити backend submodule"
 ### 0. Перше клонування (робиться один раз на комп'ютері)
 
 ```bash
-git clone --recurse-submodules https://github.com/zhukbet/support-crm-infra.git
-cd support-crm-infra
+git clone --recurse-submodules https://github.com/zhukbet/crm-infraFF.git
+cd crm-infraFF
 ```
 
 ### 1. Створити свою гілку
