@@ -1,0 +1,15 @@
+:80 {
+	# Section 3.7 of the spec: one domain in prod, no CORS. Everything that isn't /api or /ws
+	# goes to the frontend static build; /api and /ws go to the backend api container.
+	handle /api/* {
+		reverse_proxy api:3000
+	}
+
+	handle /ws/* {
+		reverse_proxy api:3000
+	}
+
+	handle {
+		reverse_proxy web:80
+	}
+}

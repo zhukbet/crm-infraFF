@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/zhukbet/crm-backendFF.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/zhukbet/crm-frontendFF.git

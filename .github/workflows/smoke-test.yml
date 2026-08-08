@@ -1,0 +1,45 @@
+name: Stack smoke test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Prepare .env
+        run: |
+          cp .env.example .env
+          # Placeholder secrets are enough to boot the stack for a smoke test — no real
+          # Telegram traffic is sent.
+          sed -i 's/^BOT_TOKEN=.*/BOT_TOKEN=000000:smoke-test-placeholder/' .env
+          sed -i 's/^JWT_SECRET=.*/JWT_SECRET=smoke-test-secret/' .env
+
+      - name: Build and start the stack
+        run: docker compose up -d --build
+
+      - name: Wait for api /health
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost/api/health; then exit 0; fi
+            sleep 2
+          done
+          echo "api never became healthy" >&2
+          exit 1
+
+      - name: Check frontend loads
+        run: curl -sf http://localhost/ | grep -qi '<div id="root">'
+
+      - name: Dump logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Tear down
+        if: always()
+        run: docker compose down -v
