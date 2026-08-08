@@ -68,6 +68,7 @@ services:
         # "у проді був один домен без CORS-головного болю"), not directly to the api container.
         VITE_API_URL: ${PUBLIC_ORIGIN:-http://localhost}
         VITE_WS_URL: ${PUBLIC_WS_ORIGIN:-ws://localhost}
+        VITE_TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
     restart: unless-stopped
 
   reverse-proxy:
