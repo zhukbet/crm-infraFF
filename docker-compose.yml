@@ -34,6 +34,14 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/support_crm?schema=public
       REDIS_URL: redis://redis:6379
+      # Same public origin the frontend build points at (section 3.7: one domain) — uploaded-file
+      # URLs handed to Telegram's sendPhoto/sendDocument must resolve through it via /uploads/*
+      # (see Caddyfile), not the api container's internal address.
+      PUBLIC_URL: ${PUBLIC_ORIGIN:-http://localhost}
+    volumes:
+      # Agent-attached media (UploadsController) — a named volume so it survives container
+      # recreation; only api reads/writes these, workers only ever forwards a URL to Telegram.
+      - uploads_data:/app/uploads
     depends_on:
       postgres:
         condition: service_healthy
@@ -85,3 +93,4 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  uploads_data:

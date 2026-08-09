@@ -9,6 +9,13 @@
 		reverse_proxy api:3000
 	}
 
+	# Agent-attached media (UploadsController) — served by the api container's static assets,
+	# outside the /api prefix (see main.ts). Telegram fetches these URLs directly, so they need
+	# to resolve through the same public origin as everything else.
+	handle /uploads/* {
+		reverse_proxy api:3000
+	}
+
 	handle {
 		reverse_proxy web:80
 	}
